@@ -1,0 +1,12 @@
+version: "3"
+services:
+  image1:
+    image: hr_fastapi_v1
+    environment:
+      - JWT_SECRET_KEY=jwt-hr-app
+      - JWT_ALGORITHM=HS256
+  image2:
+    image: hr_db_v1
+    environment:
+      - DATABASE_URL=mysql://root:govardhan@localhost/employee_application
+
