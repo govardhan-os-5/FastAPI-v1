@@ -1,0 +1,15 @@
+version: "3"
+services:
+  image1:
+    image: hr_fastapi_v1
+    volumes:
+      - ./credentials.txt.gpg:/app/credentials.txt.gpg
+    environment:
+      - CREDENTIALS_FILE=/app/credentials.txt.gpg
+
+  image2:
+    image: hr_db_v1
+    volumes:
+      - ./credentials.txt.gpg:/app/credentials.txt.gpg
+    environment:
+      - CREDENTIALS_FILE=/app/credentials.txt.gpg

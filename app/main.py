@@ -1,8 +1,6 @@
 import os
-
 import jwt
 import uvicorn
-from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Path
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
@@ -14,15 +12,13 @@ import models
 import schemas
 from app.database import engine, SessionLocal
 
-load_dotenv("../env.env")
-
 
 app = FastAPI()
 metadata = MetaData()
 security = HTTPBearer()
 models.Base.metadata.create_all(bind=engine)
-secret_key = os.environ.get("JWT_SECRET_KEY")
-algorithm = os.environ.get("JWT_ALGORITHM")
+secret_key = os.environ.get('JWT_SECRET_KEY')
+algorithm = os.environ.get('JWT_ALGORITHM')
 
 
 def generate_token(email: str) -> str:
@@ -49,7 +45,7 @@ app.add_middleware(
 )
 
 
-@app.get("/employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
+@app.get(f"/employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
 def employee(email: str = Path(..., description="email of the employee"), db: Session = Depends(get_db),
              token: str = Depends(security)):
     try:
@@ -87,7 +83,7 @@ def create_employee(user: schemas.CreateEmployee, db: Session = Depends(get_db))
     return crud.create_employee(db=db, user=user)
 
 
-@app.put("/update_employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
+@app.put(f"/update_employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
 def update_employee(email: str, updated_employee: schemas.CreateEmployee, db: Session = Depends(get_db)):
     db_user = crud.employee(db, email=email)
     updated_employee_data = updated_employee.dict()
@@ -102,7 +98,7 @@ def update_employee(email: str, updated_employee: schemas.CreateEmployee, db: Se
         print(f"Employee with email {email} doesn't exists.")
 
 
-@app.delete("/delete_employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
+@app.delete(f"/delete_employee/{email}", tags=["Employee Details"], response_model=schemas.CreateEmployee)
 def delete_employee(email: str, db: Session = Depends(get_db)):
     employee_to_delete = crud.employee(db, email=email)
     if employee_to_delete:
