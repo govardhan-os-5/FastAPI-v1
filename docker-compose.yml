@@ -2,6 +2,7 @@ version: "3"
 services:
   image1:
     image: hr_fastapi_v1
+<<<<<<< HEAD
     volumes:
       - ./credentials.txt.gpg:/app/credentials.txt.gpg
     environment:
@@ -13,3 +14,13 @@ services:
       - ./credentials.txt.gpg:/app/credentials.txt.gpg
     environment:
       - CREDENTIALS_FILE=/app/credentials.txt.gpg
+=======
+    environment:
+      - JWT_SECRET_KEY=jwt-hr-app
+      - JWT_ALGORITHM=HS256
+  image2:
+    image: hr_db_v1
+    environment:
+      - DATABASE_URL=mysql://root:govardhan@localhost/employee_application
+
+>>>>>>> FastAPI-v1/master
